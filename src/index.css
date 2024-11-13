@@ -15,8 +15,12 @@
   }
 }
 
-@layer utilities{
+@layer components{
   .d_container{
     @apply px-4 sm:px-8 md:px-12 lg:px-20 xl:px-28;
+  }
+
+  .desktop-nav-bar a.active{
+    @apply border-blue-500 text-blue-500;
   }
 }

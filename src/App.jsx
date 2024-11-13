@@ -1,6 +1,8 @@
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "./App.css";
 import BaseLayout from "./Layouts/BaseLayout";
-
+import Contact from "./Pages/users/Contact";
+import Home from "./Pages/users/Home";
 function App() {
   // const [data, setData] = useState(null);
 
@@ -18,7 +20,14 @@ function App() {
 
   return (
     <>
-      <BaseLayout />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<BaseLayout />}>
+            <Route index element={<Home />} />
+            <Route path="contact" element={<Contact />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

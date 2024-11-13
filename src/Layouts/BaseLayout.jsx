@@ -1,12 +1,12 @@
+import { Outlet } from "react-router-dom"
 import Footer from "../Footer"
 import Header from "../Header"
-import Home from "../Pages/users/Home"
 
 const BaseLayout = () => {
   return (
     <>
         <Header />
-        <Home />
+        <Outlet />
         <Footer />
     </>
   )

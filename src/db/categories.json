@@ -1,0 +1,42 @@
+[
+    {
+        "id": 1,
+        "name": "men",
+        "parent_id": null
+    },
+    {
+        "id": 2,
+        "name": "women",
+        "parent_id": null
+    },
+    {
+        "id": 3,
+        "name": "kids",
+        "parent_id": null
+    },
+    {
+        "id": 4,
+        "name": "shirt",
+        "parent_id": [1,2]
+    },
+    {
+        "id": 5,
+        "name": "pants",
+        "parent_id": [1,2]
+    },
+    {
+        "id": 6,
+        "name": "toys",
+        "parent_id": [3]
+    },
+    {
+        "id": 7,
+        "name": "t-shirt",
+        "parent_id": [1,2,3]
+    },
+    {
+        "id": 8,
+        "name": "glove",
+        "parent_id": [1,2,3]
+    }
+]
