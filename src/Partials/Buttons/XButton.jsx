@@ -8,7 +8,7 @@ const XButton = ({onClick, openNav}) => {
     }, [openNav])
 	return (
 		<>
-			<HiXMark className="x-button" size={32} onClick={onClick}/>
+			<HiXMark className="x-button relative z-50" size={32} onClick={onClick}/>
 		</>
 	);
 };

@@ -9,15 +9,13 @@ import { LiaClipboardListSolid } from "react-icons/lia";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MobileMainMenu from "./Components/MobileMainMenu";
-import BarButton from "./Partials/Buttons/BarButton";
-import XButton from "./Partials/Buttons/XButton";
 import categories from "./db/categories.json";
 
 const Header = () => {
 	const [auth, setAuth] = useState(true);
 	const [darkMode, setDarkMode] = useState(false);
 	const [openMainManu, setOpenMainMenu] = useState(false);
-	const [openNav, setOpenNav] = useState(false);
+	const [openNavMenu, setOpenNavMenu] = useState(false);
 	const [selectedParentCategory, setSelectedParentCategory] = useState(null);
 	const [selectedChildCategories, setSelectedChildCategories] = useState([]);
 	const [parentCategories, setParentCategories] = useState([]);
@@ -250,20 +248,12 @@ const Header = () => {
 						>
 							D Shop
 						</NavLink>
-						{openMainManu ? (
-							<XButton
-								onClick={() => setOpenMainMenu(false)}
-								openMainManu={openMainManu}
-							/>
-						) : (
-							<BarButton
-								onClick={() => setOpenMainMenu(true)}
-								openMainManu={openMainManu}
-							/>
-						)}
+						
+						<HiBars3 className="bar-button" size={32} onClick={() => setOpenMainMenu(true)}/>
 					</div>
 					<MobileMainMenu
 						openMainManu={openMainManu}
+						setOpenMainMenu={setOpenMainMenu}
 						setDarkMode={setDarkMode}
 						darkMode={darkMode}
 					/>
@@ -272,12 +262,11 @@ const Header = () => {
 					<button className="text-start">
 						<HiBars3 className="fill-dark_blue_2 size-6" />
 					</button>
-					<div className="text-light_blue_1 col-span-4 text-center">10% discount for Happy New Year!</div>
+					<div className="text-light_blue_1 col-span-4 text-center">
+						10% discount for Happy New Year!
+					</div>
 				</div>
 			</div>
-
-			{/* Mobile Nav Menu */}
-			<div></div>
 		</div>
 	);
 };
