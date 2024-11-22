@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { BiCart, BiHeart, BiUserCircle } from "react-icons/bi";
+import { BiCart, BiHeart, BiMinus, BiPlus, BiUserCircle } from "react-icons/bi";
 import { CiLight } from "react-icons/ci";
 import { FaRegUserCircle } from "react-icons/fa";
+import { FaXmark } from "react-icons/fa6";
 import { HiBars3 } from "react-icons/hi2";
 import { IoIosColorPalette } from "react-icons/io";
 import { IoSettingsSharp } from "react-icons/io5";
@@ -10,6 +11,7 @@ import { MdOutlineDarkMode } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MobileMainMenu from "./Components/MobileMainMenu";
 import categories from "./db/categories.json";
+import MobileSubCategories from "./Components/MobileSubCategories";
 
 const Header = () => {
 	const [auth, setAuth] = useState(true);
@@ -20,6 +22,7 @@ const Header = () => {
 	const [selectedChildCategories, setSelectedChildCategories] = useState([]);
 	const [parentCategories, setParentCategories] = useState([]);
 	const [isHovered, setIsHovered] = useState(false);
+	const [openDropdown, setOpenDropdown] = useState(false);
 
 	useEffect(() => {
 		const html = document.querySelector("html");
@@ -45,6 +48,13 @@ const Header = () => {
 	}, [isHovered]);
 
 	const selectingCategory = ({ cat }) => {
+		if(selectedParentCategory === cat) {
+			setSelectedChildCategories([]);
+			setSelectedParentCategory(null);
+			setOpenDropdown(false);
+
+			return selectedChildCategories, selectedParentCategory;
+		}
 		setSelectedParentCategory(cat);
 		let childCats = categories.filter((childCat) => {
 			if (childCat.parent_id !== null) {
@@ -52,6 +62,7 @@ const Header = () => {
 			}
 		});
 		setSelectedChildCategories(childCats);
+		setOpenDropdown(true);
 	};
 
 	const RenderSubCategories = () => {
@@ -248,8 +259,12 @@ const Header = () => {
 						>
 							D Shop
 						</NavLink>
-						
-						<HiBars3 className="bar-button" size={32} onClick={() => setOpenMainMenu(true)}/>
+
+						<HiBars3
+							className="bar-button"
+							size={32}
+							onClick={() => setOpenMainMenu(true)}
+						/>
 					</div>
 					<MobileMainMenu
 						openMainManu={openMainManu}
@@ -258,12 +273,53 @@ const Header = () => {
 						darkMode={darkMode}
 					/>
 				</div>
-				<div className="d_container border-t border-slate-200 py-1 grid grid-cols-6">
-					<button className="text-start">
+				<div className="d_container border-t border-slate-200 py-1 grid grid-cols-6 relative">
+					<button
+						className="text-start"
+						onClick={() => setOpenNavMenu((prev) => !prev)}
+					>
 						<HiBars3 className="fill-dark_blue_2 size-6" />
 					</button>
 					<div className="text-light_blue_1 col-span-4 text-center">
 						10% discount for Happy New Year!
+					</div>
+					<div
+						className={`fixed top-0 w-full h-full bg-slate-600/20 z-50 transition-all duration-300 ease-linear ${
+							openNavMenu ? "left-0" : "left-[-100%]"
+						}`}
+					>
+						<div className="w-[80%] h-full bg-white rounded-br rounded-tr shadow px-4">
+							<div className="w-full flex gap-4 items-center justify-between border-b border-slate-300 py-2 text-slate-700">
+								<a className="font-bold" href="/">
+									DShop
+								</a>
+								<FaXmark
+									onClick={() => setOpenNavMenu(false)}
+								/>
+							</div>
+							<ul className="divide-y divide-slate-200">
+								<li className="py-2">Home</li>
+								{parentCategories.map((cat) => (
+									<div key={cat.id}  className="*:py-2 capitalize divide-y divide-slate-200">
+										<li
+											onClick={() =>
+												selectingCategory({cat})
+											}
+											className="flex justify-between gap-4 items-center leading-6"
+										>
+											<span>{cat.name}</span>
+											{openDropdown && (selectedParentCategory===cat) ? <BiMinus /> : <BiPlus />}
+										</li>
+
+										{selectedParentCategory && selectedParentCategory === cat && (
+											<MobileSubCategories selectedChildCategories={selectedChildCategories} />
+										)}
+									</div>
+								))}
+								<li className="py-2">About Us</li>
+								<li className="py-2">Contact Us</li>
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
