@@ -1,17 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import RoleItem from "../../Components/RoleItem";
+import ToastAlert from "../../Components/ToastAlert";
 
 const About = () => {
-	const [roles, setRoles] = useState([]);
+	const [roles, setRoles] = useState(null);
 	const [permissions, setPermissions] = useState([]);
 	const [formData, setFormData] = useState({
 		name: "",
-		slug: "",
 		permissions: [],
 	});
 	const [loading, setLoading] = useState(false);
 	const [openForm, setOpenForm] = useState(false);
+	const [message, setMessage] = useState(null);
 
 	useEffect(() => {
 		const fetchRoles = async () => {
@@ -61,9 +62,9 @@ const About = () => {
 					},
 				}
 			);
-			alert(response.data.message);
+			setMessage(response.data.message);
 			setRoles((prevRole) => [...prevRole, response.data.role]);
-      setOpenForm(false);
+			setOpenForm(false);
 			setFormData({ name: "", slug: "", permissions: [] });
 		} catch (error) {
 			console.error(error);
@@ -108,7 +109,12 @@ const About = () => {
 					<h2 className="text-2xl text-green-600 font-bold">
 						Create Role
 					</h2>
-          <button onClick={() => setOpenForm(false)} className="rounded-full px-4 py-2 border">X</button>
+					<button
+						onClick={() => setOpenForm(false)}
+						className="rounded-full px-4 py-2 border"
+					>
+						X
+					</button>
 				</div>
 				<form onSubmit={handleForm} className="space-y-4">
 					<div>
@@ -120,18 +126,6 @@ const About = () => {
 							type="text"
 							name="name"
 							value={formData.name}
-							onChange={handleInputChange}
-						/>
-					</div>
-					<div className="">
-						<label className="block" htmlFor="slug">
-							Slug
-						</label>
-						<input
-							className="border w-full"
-							type="text"
-							name="slug"
-							value={formData.slug}
 							onChange={handleInputChange}
 						/>
 					</div>
@@ -171,6 +165,9 @@ const About = () => {
 				</form>
 			</div>
 
+			{/* Toast Alert */}
+			<ToastAlert message={message} setMessage={setMessage} />
+
 			<div className="flex justify-end">
 				<button
 					className="text-white bg-green-600 px-2 py-1 rounded"
@@ -179,6 +176,7 @@ const About = () => {
 					Create
 				</button>
 			</div>
+
 			<div>
 				<table className="w-full bg-white table-fixed border">
 					<thead className="border py-4 bg-red-500">
@@ -189,13 +187,20 @@ const About = () => {
 						</tr>
 					</thead>
 					<tbody className="divide-y divide-slate-200">
-						{roles.map((role) => (
-							<RoleItem
-								key={role.id}
-								role={role}
-								onDelete={handleDelete}
-							/>
-						))}
+						{roles ? (
+							roles.map((role) => (
+								<RoleItem
+									key={role.id}
+									role={role}
+									onDelete={handleDelete}
+									setMessage={setMessage}
+								/>
+							))
+						) : (
+							<tr>
+								<td className={`bg-slate-200 text-center py-8 place-content-center text-4xl w-full h-full`} colSpan={3} >Please Wait</td>
+							</tr>
+						)}
 					</tbody>
 				</table>
 			</div>
