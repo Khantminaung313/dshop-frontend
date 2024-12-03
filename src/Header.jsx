@@ -10,8 +10,8 @@ import { LiaClipboardListSolid } from "react-icons/lia";
 import { MdOutlineDarkMode } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import MobileMainMenu from "./Components/MobileMainMenu";
-import categories from "./db/categories.json";
 import MobileSubCategories from "./Components/MobileSubCategories";
+import categories from "./db/categories.json";
 
 const Header = () => {
 	const [auth, setAuth] = useState(true);
@@ -128,6 +128,9 @@ const Header = () => {
 
 					{auth ? (
 						<div className="flex gap-4 justify-end items-center relative w-full">
+							<button>
+								<NavLink to={"/admin"}>Admin Dashboard</NavLink>
+							</button>
 							<button>
 								<BiCart
 									className="size-8 text-light_blue_1 dark:text-white"
